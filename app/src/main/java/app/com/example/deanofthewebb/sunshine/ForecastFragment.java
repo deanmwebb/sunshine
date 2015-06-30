@@ -128,11 +128,31 @@ public class ForecastFragment extends Fragment {
      */
     private String formatHighLows(double high, double low) {
         // For presentation, assume the user doesn't care about tenths of a degree.
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String unitType = preferences.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric));
+
+        //Change to Imperical if User Preference is set to Imperical
+
+        if (unitType.equals(getString(R.string.pref_units_imperial))) {
+
+            high = convertCelsiusToFarenheit(high);
+            low = convertCelsiusToFarenheit(low);
+        }
+        else if (!unitType.equals(getString(R.string.pref_units_metric))) {
+            Log.d(LOG_TAG, "Unit Type " + unitType + " not Found");
+        }
+
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
 
         String highLowStr = roundedHigh + "/" + roundedLow;
+
         return highLowStr;
+    }
+
+    private double convertCelsiusToFarenheit(double degreesCentigrade) {
+        return (degreesCentigrade*1.8) + 32.0;
     }
 
     /**
