@@ -81,7 +81,6 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String dayForecast = forecastAdapter.getItem(position);
-                int duration = Toast.LENGTH_SHORT;
 
                 Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, dayForecast);
