@@ -77,6 +77,8 @@ public class ForecastFragment extends Fragment {
 
         final ListView forecastView = (ListView) rootView.findViewById(R.id.listview_forecast);
         forecastView.setAdapter(forecastAdapter);
+
+        //Detail Activity
         forecastView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

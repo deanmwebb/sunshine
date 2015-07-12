@@ -17,6 +17,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(LOG_TAG, "Printing from the onCreate method");
         setContentView(R.layout.activity_main);
     }
 
@@ -49,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void OpenPreferredLocationInMap() {
+
         //Start Implicit Intent
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -69,5 +71,36 @@ public class MainActivity extends ActionBarActivity {
             Log.d(LOG_TAG,"Could not call " + location + ": No action found");
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.v(LOG_TAG, "Printing from the onPause method");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v(LOG_TAG, "Printing from the onResume method");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.v(LOG_TAG, "Printing from the onStop method");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.v(LOG_TAG, "Printing from the onStart method");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(LOG_TAG, "Printing from the onDestroy method");
+    }
+
 }
 
