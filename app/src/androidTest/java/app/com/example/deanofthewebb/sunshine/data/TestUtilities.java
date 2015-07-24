@@ -1,4 +1,4 @@
-package com.example.android.sunshine.app.data;
+package app.com.example.deanofthewebb.sunshine.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.example.android.sunshine.app.utils.PollingCheck;
+import app.com.example.deanofthewebb.sunshine.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;

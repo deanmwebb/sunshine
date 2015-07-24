@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
+package app.com.example.deanofthewebb.sunshine.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -22,6 +22,7 @@ import android.test.AndroidTestCase;
 
 import java.util.HashSet;
 
+import app.com.example.deanofthewebb.sunshine.data.TestUtilities;
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract;
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract.LocationEntry;
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract.WeatherEntry;
