@@ -13,12 +13,21 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String FORECASTFRAGMENTAG = "FFTAG";
+
+    private String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        location = Utility.getPreferredLocation(this);
         super.onCreate(savedInstanceState);
-        Log.v(LOG_TAG, "Printing from the onCreate method");
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENTAG)
+                    .commit();
+        }
     }
 
 
@@ -41,7 +50,8 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-        else if (id == R.id.action_view_map) {
+
+        if (id == R.id.action_view_map) {
             OpenPreferredLocationInMap();
             return true;
         }
@@ -72,35 +82,20 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.v(LOG_TAG, "Printing from the onPause method");
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.v(LOG_TAG, "Printing from the onResume method");
-    }
+        String loc = Utility.getPreferredLocation(this);
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.v(LOG_TAG, "Printing from the onStop method");
-    }
+        if (loc != null && !loc.equals(location)) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENTAG);
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.v(LOG_TAG, "Printing from the onStart method");
+            if (ff != null) {
+                ff.onLocationChanged();
+            }
+            location = loc;
+        }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.v(LOG_TAG, "Printing from the onDestroy method");
-    }
-
 }
 

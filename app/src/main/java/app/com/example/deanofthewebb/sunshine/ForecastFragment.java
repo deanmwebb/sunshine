@@ -2,15 +2,11 @@ package app.com.example.deanofthewebb.sunshine;
 
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
-import android.content.SharedPreferences;
 import android.support.v4.content.Loader;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import java.text.SimpleDateFormat;
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract;
 
 
@@ -77,10 +67,10 @@ public class ForecastFragment extends Fragment
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+
+    public void onLocationChanged() {
         updateWeather();
+        getLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
     }
 
     @Override
