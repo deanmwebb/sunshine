@@ -128,7 +128,9 @@ public class DetailActivity extends ActionBarActivity {
             else {
                 Log.d(LOG_TAG, "Share action provider is null?");
             }
-
+            if (forecastStr != null) {
+                shareActionProvider.setShareIntent(createShareForecastIntent());
+            }
         }
 
 

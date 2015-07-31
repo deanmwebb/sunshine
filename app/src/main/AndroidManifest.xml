@@ -2,18 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.com.example.deanofthewebb.sunshine" >
 
+    <!-- This permission is necessary in order for Sunshine to perform network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <provider
-            android:authorities="app.com.example.deanofthewebb.sunshine"
-            android:name=".data.WeatherProvider"
-            />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -39,6 +35,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.com.example.deanofthewebb.sunshine.MainActivity" />
         </activity>
+        <provider
+            android:authorities="app.com.example.deanofthewebb.sunshine"
+            android:name=".data.WeatherProvider" />
     </application>
 
 </manifest>

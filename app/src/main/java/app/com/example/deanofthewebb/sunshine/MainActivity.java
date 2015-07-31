@@ -1,9 +1,7 @@
 package app.com.example.deanofthewebb.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +10,9 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+
     private final String LOG_TAG = MainActivity.class.getSimpleName();
-    private final String FORECASTFRAGMENTAG = "FFTAG";
+    private final String FORECASTFRAGMENT_TAG = "FFTAG";
 
     private String location;
 
@@ -25,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState != null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENTAG)
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
                     .commit();
         }
     }
@@ -52,20 +51,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         if (id == R.id.action_view_map) {
-            OpenPreferredLocationInMap();
+            openPreferredLocationInMap();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void OpenPreferredLocationInMap() {
+    private void openPreferredLocationInMap() {
+        String location = Utility.getPreferredLocation(this);
 
-        //Start Implicit Intent
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String location = preferences.getString(getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default));
 
         Uri locationUri = Uri.parse("geo:0,0?").buildUpon()
                 .appendQueryParameter("q", location)
@@ -78,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
             startActivity(mapIntent);
         }
         else {
-            Log.d(LOG_TAG,"Could not call " + location + ": No action found");
+            Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
         }
     }
 
@@ -87,11 +82,11 @@ public class MainActivity extends ActionBarActivity {
     public void onResume() {
         super.onResume();
         String loc = Utility.getPreferredLocation(this);
-
+        // update the location in our second pane using the fragment manager
         if (loc != null && !loc.equals(location)) {
-            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENTAG);
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
 
-            if (ff != null) {
+            if (null != ff) {
                 ff.onLocationChanged();
             }
             location = loc;

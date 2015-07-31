@@ -234,7 +234,6 @@ public class WeatherProvider extends ContentProvider {
                 break;
             }
             case LOCATION: {
-                normalizeDate(values);
                 long _id = db.insert(WeatherContract.LocationEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
                     returnUri = WeatherContract.LocationEntry.buildLocationUri(_id);
@@ -290,16 +289,13 @@ public class WeatherProvider extends ContentProvider {
         int rowsUpdated;
 
         switch (match) {
-            case WEATHER: {
+            case WEATHER:
                 normalizeDate(values);
                 rowsUpdated = db.update(WeatherContract.WeatherEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
-            }
-            case LOCATION: {
-                normalizeDate(values);
+            case LOCATION:
                 rowsUpdated = db.update(WeatherContract.LocationEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
-            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
