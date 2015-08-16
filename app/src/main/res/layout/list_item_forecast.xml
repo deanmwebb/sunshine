@@ -9,7 +9,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/list_item_icon"
+        android:id="@+id/list_item_forecast_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
