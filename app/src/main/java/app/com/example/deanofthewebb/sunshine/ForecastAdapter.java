@@ -18,6 +18,7 @@ public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_TODAY = 0;
     private final int VIEW_TYPE_FUTURE_DAY = 1;
     private final int VEW_TYPE_COUNT = 2;
+    private boolean mUseTodayLayout = true;
 
     /**
      * Cache of the children views for a forecast list item.
@@ -47,9 +48,13 @@ public class ForecastAdapter extends CursorAdapter {
         return VEW_TYPE_COUNT;
     }
 
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        this.mUseTodayLayout = useTodayLayout;
+    }
+
     @Override
     public int getItemViewType(int position) {
-        return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        return (position == 0 && mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     /* Remember that these views are reused as needed. */
