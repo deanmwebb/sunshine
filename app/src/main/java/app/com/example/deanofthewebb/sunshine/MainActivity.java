@@ -15,11 +15,11 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     private final String DETAILFRAGMENT_TAG = "DFTAG";
 
     private boolean mTwoPane;
-    private String location;
+    private String mLocation;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        location = Utility.getPreferredLocation(this);
+        mLocation = Utility.getPreferredLocation(this);
         setContentView(R.layout.activity_main);
 
         if (findViewById(R.id.weather_detail_container) != null) {
@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             }
         } else {
             mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
         }
 
         ForecastFragment forecastFragment = ((ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast));
@@ -96,22 +97,18 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     @Override
     public void onResume() {
         super.onResume();
-        String loc = Utility.getPreferredLocation(this);
-        // update the location in our second pane using the fragment manager
-        if (loc != null && !loc.equals(location)) {
+        String location = Utility.getPreferredLocation(this);
+        // update the mLocation in our second pane using the fragment manager
+        if (location != null && !location.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
-
             if (null != ff) {
                 ff.onLocationChanged();
             }
-            location = loc;
-
             DetailFragment df = (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-
-            if (null != ff) {
-                df.onLocationChanged(loc);
+            if (null != df) {
+                df.onLocationChanged(location);
             }
-            location = loc;
+            mLocation = location;
         }
     }
 
