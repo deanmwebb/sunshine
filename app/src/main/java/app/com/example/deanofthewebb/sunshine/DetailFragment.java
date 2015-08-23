@@ -213,6 +213,8 @@ public class DetailFragment extends Fragment
         viewHolder.highTempView.setText(formattedHigh);
         viewHolder.lowTempView.setText(formattedLow);
         viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+        // For accessibility, add a content description to the icon field
+        viewHolder.iconView.setContentDescription(weatherDescription);
         viewHolder.pressureView.setText(weatherPressure);
         viewHolder.humidtyView.setText(humidity);
         viewHolder.windView.setText(windSpeed);

@@ -1,6 +1,7 @@
 
 package app.com.example.deanofthewebb.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract;
+import app.com.example.deanofthewebb.sunshine.service.SunshineService;
 
 /**
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
@@ -163,9 +165,11 @@ public class ForecastFragment extends Fragment
 
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location);
+
+        Intent serviceIntent = new Intent(getActivity(), SunshineService.class);
+        serviceIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
+        getActivity().startService(serviceIntent);
     }
 
 
