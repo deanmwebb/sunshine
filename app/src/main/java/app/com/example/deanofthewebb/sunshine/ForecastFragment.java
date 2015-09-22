@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +20,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import app.com.example.deanofthewebb.sunshine.data.WeatherContract;
-import app.com.example.deanofthewebb.sunshine.service.SunshineService;
+import app.com.example.deanofthewebb.sunshine.sync.SunshineSyncAdapter;
 
 /**
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
 public class ForecastFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>{
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     private ForecastAdapter mForecastAdapter;
     private ListView mListView;
@@ -94,9 +96,8 @@ public class ForecastFragment extends Fragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateWeather();
-            return true;
+        if (id == R.id.action_view_map) {
+            openPreferredLocationInMap();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -165,11 +166,32 @@ public class ForecastFragment extends Fragment
 
 
     private void updateWeather() {
-        String location = Utility.getPreferredLocation(getActivity());
+        SunshineSyncAdapter.syncImmediately(getActivity());
+    }
 
-        Intent serviceIntent = new Intent(getActivity(), SunshineService.class);
-        serviceIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
-        getActivity().startService(serviceIntent);
+    private void openPreferredLocationInMap() {
+        // Using the URI scheme for showing a location found on a map.  This super-handy
+        // intent can is detailed in the "Common Intents" page of Android's developer site:
+        // http://developer.android.com/guide/components/intents-common.html#Maps
+        if ( null != mForecastAdapter ) {
+            Cursor c = mForecastAdapter.getCursor();
+            if ( null != c ) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String posLong = c.getString(COL_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                }
+            }
+
+        }
     }
 
 
@@ -181,7 +203,7 @@ public class ForecastFragment extends Fragment
         // To only show current and future dates, filter the query to return weather only for
         // dates after or including today.
 
-        // Sort order:  Ascending, by date.
+        // Sort order:  Descending, by popularity.
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
 
         String locationSetting = Utility.getPreferredLocation(getActivity());

@@ -15,8 +15,6 @@ import app.com.example.deanofthewebb.sunshine.utils.PollingCheck;
 import java.util.Map;
 import java.util.Set;
 
-import app.com.example.deanofthewebb.sunshine.data.WeatherContract;
-import app.com.example.deanofthewebb.sunshine.data.WeatherDbHelper;
 
 /*
     Students: These are functions and some test data to make it easier to test your database and

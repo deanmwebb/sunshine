@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.deanofthewebb.data;
+package app.com.example.deanofthewebb.sunshine.data;
 
 import android.net.Uri;
 import android.test.AndroidTestCase;

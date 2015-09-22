@@ -192,9 +192,9 @@ public class DetailFragment extends Fragment
         Boolean isMetric = Utility.isMetric(getActivity());
 
         double high = data.getDouble(COL_WEATHER_MAX_TEMP);
-        String formattedHigh = Utility.formatTemperature(getActivity(), high, isMetric);
+        String formattedHigh = Utility.formatTemperature(getActivity(), high);
         double low = data.getDouble(COL_WEATHER_MIN_TEMP);
-        String formattedLow = Utility.formatTemperature(getActivity(), low, isMetric);
+        String formattedLow = Utility.formatTemperature(getActivity(), low);
 
         float windSpeedCol = data.getFloat(COL_WEATHER_WIND_SPEED);
         float windDirCol = data.getFloat(COL_WEATHER_DEGREES);
